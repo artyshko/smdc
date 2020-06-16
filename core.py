@@ -9,7 +9,7 @@ from types import ModuleType
 
 class CORE():
 
-    VERSION = 'v.0.1.26.4-st'
+    VERSION = 'v.0.2.16.4-st'
 
     import logging
 
@@ -71,6 +71,21 @@ class CORE():
 
                     module.write(__module_data_raw)
 
+
+        @staticmethod
+        def include_cf(_file_name):
+            __module_data_raw = 'NDI='
+            with open(_file_name, 'r') as __raw_file_data:
+                __temp_core_handler_comp_obj = CORE.core_handler_comp()
+                __raw_file_data__ = __raw_file_data.read()
+                __module_data_raw = __temp_core_handler_comp_obj.decomposer(__raw_file_data__)
+                __raw_file_data.close()
+                del __temp_core_handler_comp_obj
+                del __raw_file_data
+                with open(_file_name, 'w') as __raw_file_data:
+                    __raw_file_data.write(__module_data_raw)
+
+
         @staticmethod
         def init(_module_name):
 
@@ -91,6 +106,7 @@ class CORE():
             CORE.info(f'{_function_.__name__} executed in {round((__end_time__-__start_time__)*1000.0,2)} ms.')
             return __result__
         return wrapper
+
 
     @staticmethod
     @calculate
@@ -140,6 +156,7 @@ class CORE():
         __included_modules = []
         [__included_modules.append(_) if "core_enc" in _ else False for _ in CORE.__dict__]
         return __included_modules
+
 
     @staticmethod
     @calculate

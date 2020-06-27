@@ -21,6 +21,7 @@ class CORE():
     _stream_handler.setLevel(logging.INFO)
     __logger = logging.getLogger("CORE")
     info = lambda data: CORE.__logger.info(data)
+    error = lambda data: CORE.__logger.error(data)
 
     class core_handler_comp(object):
 
@@ -111,10 +112,9 @@ class CORE():
     @staticmethod
     @calculate
     def __get_all():
-
         modules = []
-        for module in os.listdir():
-            modules.append(module) if str(module).find('.smdc') > -1 else False
+        for module in os.listdir(f'{os.getcwd()}/kernel/smdc'):
+            modules.append(f"{os.getcwd()}/kernel/smdc/{module}") if str(module).find('.smdc') > -1 else False
         return modules
 
 
@@ -163,8 +163,11 @@ class CORE():
     def execute(_class_,_function_,args):
 
         def __value_handler__(_func_,_args_,_storage_):
-
-            return _storage_.append(_func_(_args_))
+            try:
+                return _storage_.append(_func_(_args_))
+            except Exception as e:
+                CORE.error(e)
+                return _storage_.append([])
 
         __modules__ = CORE.get_all_included_modules()
         __processes__, __results, executed = [], [], False
